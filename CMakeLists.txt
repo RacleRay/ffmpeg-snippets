@@ -37,7 +37,7 @@ file(GLOB_RECURSE core_codes ${core_dir}/*.cpp)
 
 
 # --------------------------------------------------------------------------
-# 
+#
 # add_subdirectory(./src)
 # add_subdirectory(./demo)
 

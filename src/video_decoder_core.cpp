@@ -100,6 +100,7 @@ int32_t decoding() {
 
         data = read_buf;
         while (data_size > 0) {
+            // av_parser_parse2: 解析出符合指定编码的码流包。解码的另一种方式是通过 avformat_open_input，直接以指定编码格式打开文件，从其返回的 AVFormatContext 中的 AVPacket 中获得码流包
             result = av_parser_parse2(parser, codec_context, &packet->data,
                 &packet->size, data, data_size, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
             if (result < 0) {
