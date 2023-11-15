@@ -11,6 +11,8 @@ else()
 endif()
 
 
+# --------------------------------------------------------------------------
+# FFmpeg library
 set(ffmpeg_include_dir /usr/local/ffmpeg/include)
 include_directories(${ffmpeg_include_dir})
 
@@ -18,16 +20,24 @@ set(ffmpeg_lib_dir /usr/local/ffmpeg/lib)
 file(GLOB ffmpeg_solibs ${ffmpeg_lib_dir}/*.so)
 link_directories(${ffmpeg_lib_dir})
 
-include_directories(${PROJECT_SOURCE_DIR}/inc)
+message(${ffmpeg_solibs})
 
+
+# --------------------------------------------------------------------------
+# Project files
+include_directories(${PROJECT_SOURCE_DIR}/inc)
 
 set(demo_dir ${PROJECT_SOURCE_DIR}/demo)
 file(GLOB demo_codes ${demo_dir}/*.cpp)
 
 set(core_dir ${PROJECT_SOURCE_DIR}/src)
+
 set(core_codes "")
 file(GLOB_RECURSE core_codes ${core_dir}/*.cpp)
 
+
+# --------------------------------------------------------------------------
+# 
 # add_subdirectory(./src)
 # add_subdirectory(./demo)
 

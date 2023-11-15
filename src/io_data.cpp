@@ -124,3 +124,41 @@ int32_t read_yuv_to_frame(AVFrame *frame) {
 void write_pkt_to_file(AVPacket *pkt) {
     fwrite(pkt->data, 1, pkt->size, output_file);
 }
+
+
+int32_t write_samples_to_pcm(AVFrame* frame, AVCodecContext* codec_ctx) {
+    int data_size = av_get_bytes_per_sample(codec_ctx->sample_fmt);
+    if (data_size < 0) {
+        std::cerr << "Failed to calculate data size" << std::endl;
+        exit(-1);
+    }
+
+    int nb_samples = frame->nb_samples;
+    int nb_channels = codec_ctx->ch_layout.nb_channels;
+    for (int i = 0; i < nb_samples; ++i) {
+        for (int ch = 0; ch < nb_channels; ++ch) {
+            fwrite(frame->data[ch] + data_size * i, 1, data_size, output_file);
+        }
+    }
+
+    return 0;
+}
+
+
+int32_t read_pcm_to_frame(AVFrame* frame, AVCodecContext* codec_ctx) {
+    int data_size = av_get_bytes_per_sample(codec_ctx->sample_fmt);
+    if (data_size < 0) {
+        std::cerr << "Failed to calculate data size" << std::endl;
+        exit(-1);
+    }
+
+    int nb_samples = frame->nb_samples;
+    int nb_channels = codec_ctx->ch_layout.nb_channels;
+    for (int i = 0; i < nb_samples; ++i) {
+        for (int ch = 0; ch < nb_channels; ++ch) {
+            fread(frame->data[ch] + data_size * i, 1, data_size, input_file);
+        }
+    }
+
+    return 0;
+}
